@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Git File Creator</title>
+  </head>
+  <body>
+    <h1>Create a new file in a Git repository</h1>
+    <form id="create-file-form">
+      <label for="file-name">File Name:</label>
+      <input type="text" id="file-name" name="file-name" required>
+      <br>
+      <label for="file-contents">File Contents:</label>
+      <textarea id="file-contents" name="file-contents" required></textarea>
+      <br>
+      <button type="submit">Create File</button>
+    </form>
+    <script>
+      const form = document.querySelector('#create-file-form');
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const fileName = document.querySelector('#file-name').value;
+        const fileContents = document.querySelector('#file-contents').value;
+
+        // Replace these values with your own access token and repository information
+        const accessToken = 'your_access_token';
+        const repository = 'your_user_name/your_repository';
+
+        // Set up the API request to create a new file
+        const url = `https://api.github.com/repos/${repository}/contents/${fileName}`;
+        const data = {
+          message: 'Creating new file',
+          content: btoa(fileContents),
+        };
+
+        // Send the API request
+        const response = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            Authorization: `token ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        // Check the API response for success or failure
+        if (!response.ok) {
+          // Handle error
+        }
+      });
+    </script>
+  </body>
+</html>
